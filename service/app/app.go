@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"errors"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/lefinal/image-to-ma3-scribble/web"
 	"github.com/lefinal/meh"
@@ -41,12 +40,12 @@ func (app *App) Run(ctx context.Context) error {
 	r := gin.New()
 
 	apiLogger := app.logger.Named("http")
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost", "http://localho.st", "https://la-solutions.one", "https://www.la-solutions.one", "https://preview.la-solutions.one"},
-		AllowMethods:     []string{http.MethodPost, http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodDelete, http.MethodOptions},
-		AllowHeaders:     []string{"*"},
-		AllowCredentials: true,
-	}))
+	r.Use(func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Allow-Methods", "*")
+		c.Header("Allow-Headers", "*")
+		c.Next()
+	})
 	r.Use(web.RequestDebugLogger(apiLogger))
 	builder := web.HandlerBuilder{Logger: apiLogger}
 	r.GET("/healthz", func(c *gin.Context) { c.Status(http.StatusOK) })
