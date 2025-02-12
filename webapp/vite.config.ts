@@ -12,6 +12,7 @@ export default defineConfig({
   define: {
     PKG: pkg,
   },
+  base: "/apps/image-to-ma3-scribble",
   server: {
     allowedHosts: ["localhost", "localho.st"]
   }
