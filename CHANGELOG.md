@@ -1,3 +1,10 @@
+## [1.0.4](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.3...v1.0.4) (2025-02-12)
+
+
+### Bug Fixes
+
+* **service:** fix cors ([40ab473](https://github.com/lefinal/image-to-ma3-scribble/commit/40ab4736e4eb2d21b248637740642441c8d4c297))
+
 ## [1.0.3](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.2...v1.0.3) (2025-02-12)
 
 
