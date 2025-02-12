@@ -389,17 +389,32 @@
         object-fit: contain;
     }
 
+    h1 {
+        margin-bottom: .3em;
+    }
+
     .version {
         font-size: .5em;
-        color: #aaa;
         margin-left: .2em;
+    }
+
+    .version, .author {
+        color: #aaa;
+    }
+
+    a, a:focus, a:active {
+        color: inherit;
+    }
+    a:hover {
+        color: #4a94dd;
     }
 </style>
 
 <main>
   <div class="widget">
 
-    <h1>PNG to Scribble <span class="version">v{PKG.version}</span></h1>
+    <h1>PNG to Scribble <a class="version" href="https://github.com/lefinal/image-to-ma3-scribble">v{PKG.version}</a></h1>
+    <div class="author">by <a href="https://la-solutions.one">Lennart Altenhof</a></div>
 
     <div class="params">
       <h3>Image upload</h3>
