@@ -1,3 +1,11 @@
+## [1.0.5](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.4...v1.0.5) (2025-02-12)
+
+
+### Bug Fixes
+
+* improve responsiveness ([3d81b13](https://github.com/lefinal/image-to-ma3-scribble/commit/3d81b13e5931a87cab2b258735e29c46af3bf0cc))
+* **service:** fix cors protocol ([c287ee3](https://github.com/lefinal/image-to-ma3-scribble/commit/c287ee3bd0fe21865e1fb83e0b5bf0323ab6fd11))
+
 ## [1.0.4](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.3...v1.0.4) (2025-02-12)
 
 
