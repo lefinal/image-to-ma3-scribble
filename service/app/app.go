@@ -42,7 +42,7 @@ func (app *App) Run(ctx context.Context) error {
 
 	apiLogger := app.logger.Named("http")
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"localhost", "localho.st", "la-solutions.one", "www.la-solutions.one", "preview.la-solutions.one"},
+		AllowOrigins:     []string{"http://localhost", "http://localho.st", "https://la-solutions.one", "https://www.la-solutions.one", "https://preview.la-solutions.one"},
 		AllowMethods:     []string{http.MethodPost, http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodDelete, http.MethodOptions},
 		AllowHeaders:     []string{"*"},
 		AllowCredentials: true,
