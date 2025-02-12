@@ -28,4 +28,4 @@ jobs:
 
       - name: Copy package.json
         run: |
-          cp package.json build/package.json
+          mkdir build ; cp package.json build/package.json
