@@ -60,7 +60,7 @@ jobs:
           path: webapp/build
 
       - name: Install dependencies for semantic-release
-        run: npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/exec @codedependant/semantic-release-docker
+        run: npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/exec @codedependant/semantic-release-docker@5.0.4
 
       - name: Release
         env:
