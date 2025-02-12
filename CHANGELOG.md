@@ -1,3 +1,11 @@
+## [1.0.3](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.2...v1.0.3) (2025-02-12)
+
+
+### Bug Fixes
+
+* **webapp:** fix base path ([024e1d4](https://github.com/lefinal/image-to-ma3-scribble/commit/024e1d41cb78b407fae7d2bcd3f248ec62689130))
+* **webapp:** fix page title ([a416772](https://github.com/lefinal/image-to-ma3-scribble/commit/a416772844120f7145fb5a25fe4e29c86e3bd007))
+
 ## [1.0.2](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.1...v1.0.2) (2025-02-12)
 
 
