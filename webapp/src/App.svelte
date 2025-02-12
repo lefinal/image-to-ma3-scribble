@@ -1,6 +1,4 @@
 <script lang="ts">
-  const dev = true;
-
   interface Params {
     trace_turn_policy: string;
     trace_turd_size: number;
@@ -261,16 +259,11 @@
 </script>
 
 <svelte:head>
-  {#if dev}
-    <script async src="http://localhost:3000/script" data-website-id="1c7ac515-e228-4e8f-b671-16c2ce2e51e9"></script>
     <script async src="https://analytics.la-solutions.one/umami" data-website-id="c4ba42e4-9a92-4498-b846-a689ad63fb17"
             data-domains="localho.st"></script>
-  {/if}
-  {#if !dev}
     <script async data-website-id="167fcd8d-55b2-4c7d-ab56-0fe66d1b4036"
             data-domains="la-solutions.one,www.la-solutions.one"
             src="https://analytics.la-solutions.one/umami"></script>
-  {/if}
 </svelte:head>
 
 <style>
