@@ -246,24 +246,24 @@
   }
 
   function trackFocusVersion() {
-    track('focus_version')
+    track('focus_version');
   }
 
   function trackFocusAuthor() {
-    track('focus_author')
+    track('focus_author');
   }
 
   function trackFocusLicense() {
-    track('focus_license')
+    track('focus_license');
   }
 </script>
 
 <svelte:head>
-    <script async src="https://analytics.la-solutions.one/umami" data-website-id="c4ba42e4-9a92-4498-b846-a689ad63fb17"
-            data-domains="localho.st"></script>
-    <script async data-website-id="167fcd8d-55b2-4c7d-ab56-0fe66d1b4036"
-            data-domains="la-solutions.one,www.la-solutions.one"
-            src="https://analytics.la-solutions.one/umami"></script>
+  <script async src="https://analytics.la-solutions.one/umami" data-website-id="c4ba42e4-9a92-4498-b846-a689ad63fb17"
+          data-domains="localho.st"></script>
+  <script async data-website-id="167fcd8d-55b2-4c7d-ab56-0fe66d1b4036"
+          data-domains="la-solutions.one,www.la-solutions.one"
+          src="https://analytics.la-solutions.one/umami"></script>
 </svelte:head>
 
 <style>
@@ -288,9 +288,21 @@
         min-height: 100vh;
     }
 
+    .column {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex-shrink: 1;
+        align-content: start;
+        justify-content: center;
+        gap: 1em;
+        padding-bottom: 40px;
+    }
+
     .widget {
-        width: 600px;
+        width: 500px;
         max-width: 600px;
+        height: fit-content;
         background: #333;
         padding: 20px;
         border-radius: 10px;
@@ -451,148 +463,163 @@
 </style>
 
 <main>
-  <div class="widget">
+  <div class="column">
+    <div class="widget">
+      <h1>PNG to MA3 Scribble <span class="version">v{PKG.version}</span></h1>
+      <div class="author">by <a href="https://la-solutions.one" on:focus={trackFocusAuthor}>Lennart Altenhof</a></div>
 
-    <h1>PNG to MA3 Scribble <span class="version">v{PKG.version}</span></h1>
-    <div class="author">by <a href="https://la-solutions.one" on:focus={trackFocusAuthor}>Lennart Altenhof</a></div>
+      <div class="params">
+        <h3>Image upload</h3>
+        <label>
+          Upload Image (.png)
+          <input type="file" accept="image/png" on:change={handleFileUpload}>
+        </label>
+        <div class="hint">
+          Images will get converted to a black-white bitmap before tracing.
+          Use an already black-white image to get the best results.
+        </div>
 
-    <div class="params">
-      <h3>Image upload</h3>
-      <label>
-        Upload Image (.png)
-        <input type="file" accept="image/png" on:change={handleFileUpload}>
-      </label>
-      <div class="hint">
-        Images will get converted to a black-white bitmap before tracing.
-        Use an already black-white image to get the best results.
-      </div>
-
-      <h3>Tracing</h3>
-      <label>
+        <h3>Tracing</h3>
+        <label>
         <span>
           Turn Policy
           <span class="help">?
             <span class="help-tooltip">Defines how corners are handled in tracing.</span>
           </span>
         </span>
-        <select bind:value={params.trace_turn_policy} on:change={updateParams}>
-          <option value="black">Black</option>
-          <option value="white">White</option>
-          <option value="right">Right</option>
-          <option value="left">Left</option>
-          <option value="minority">Minority</option>
-          <option value="majority">Majority</option>
-          <option value="random">Random</option>
-        </select>
-      </label>
+          <select bind:value={params.trace_turn_policy} on:change={updateParams}>
+            <option value="black">Black</option>
+            <option value="white">White</option>
+            <option value="right">Right</option>
+            <option value="left">Left</option>
+            <option value="minority">Minority</option>
+            <option value="majority">Majority</option>
+            <option value="random">Random</option>
+          </select>
+        </label>
 
-      <label>
+        <label>
         <span>
           Speckle Suppression
           <span class="help">?
             <span class="help-tooltip">Suppress small speckles of up to this size.</span>
           </span>
         </span>
-        <input type="number" max="100000000" bind:value={params.trace_turd_size} on:input={updateParams}>
-        <input type="range" min="1000" max="20000" step="100" bind:value={params.trace_turd_size}
-               on:input={updateParams}>
-      </label>
+          <input type="number" max="100000000" bind:value={params.trace_turd_size} on:input={updateParams}>
+          <input type="range" min="1000" max="20000" step="100" bind:value={params.trace_turd_size}
+                 on:input={updateParams}>
+        </label>
 
-      <label>
+        <label>
         <span>
           Corner To Curve Optimization
           <span class="help">?
             <span class="help-tooltip">Threshold for detecting corners. If smaller, more sharp corners will be produced instead of curves.</span>
           </span>
         </span>
-        <input type="number" step="0.1" min="0" max="1.4" bind:value={params.trace_alpha_max} on:input={updateParams}>
-        <input type="range" min="0" max="1.4" step="0.01" bind:value={params.trace_alpha_max} on:input={updateParams}>
-      </label>
+          <input type="number" step="0.1" min="0" max="1.4" bind:value={params.trace_alpha_max} on:input={updateParams}>
+          <input type="range" min="0" max="1.4" step="0.01" bind:value={params.trace_alpha_max} on:input={updateParams}>
+        </label>
 
-      <label>
+        <label>
         <span>
           Curve Optimization Tolerance
           <span class="help">?
             <span class="help-tooltip">Optimization tolerance for curve optimization. The larger the value the more curves will be joined together.</span>
           </span>
         </span>
-        <input type="number" min="0" max="100000000" bind:value={params.trace_curve_optimization_tolerance}
-               on:input={updateParams}>
-        <input type="range" min="0" max="20" step=".01" bind:value={params.trace_curve_optimization_tolerance}
-               on:input={updateParams}>
-      </label>
+          <input type="number" min="0" max="100000000" bind:value={params.trace_curve_optimization_tolerance}
+                 on:input={updateParams}>
+          <input type="range" min="0" max="20" step=".01" bind:value={params.trace_curve_optimization_tolerance}
+                 on:input={updateParams}>
+        </label>
 
-      <label>
+        <label>
         <span>
           Black Level Threshold
           <span class="help">?
             <span class="help-tooltip">Threshold for converting the input image to a black-white bitmap.</span>
           </span>
         </span>
-        <input type="number" min="0" max="1" step="0.01" bind:value={params.black_level} on:input={updateParams}>
-        <input type="range" min="0" max="1" step="0.01" bind:value={params.black_level} on:input={updateParams}>
-      </label>
+          <input type="number" min="0" max="1" step="0.01" bind:value={params.black_level} on:input={updateParams}>
+          <input type="range" min="0" max="1" step="0.01" bind:value={params.black_level} on:input={updateParams}>
+        </label>
 
-      <label class="checkbox">
-        Invert Image
-        <input type="checkbox" bind:checked={params.invert} on:change={updateParams}>
-      </label>
-
-      <h3>Scribble</h3>
-
-      <label>
-        Scribble Name
-        <input type="text" bind:value={params.ma3_scribble_name} on:input={updateParams}>
-      </label>
-
-      <label>
-        Stroke Thickness
-        <input type="number" min="0" max="10" bind:value={params.ma3_scribble_stroke_thickness} on:input={updateParams}>
-        <input type="range" min="0" max="10" step="0.1" bind:value={params.ma3_scribble_stroke_thickness}
-               on:input={updateParams}>
-      </label>
-
-      <label>
-        Stroke Color
-        <input type="color" bind:value={params.ma3_scribble_stroke_color} on:input={updateParams}>
-      </label>
-    </div>
-
-    <div class="actions">
-      <button on:click={preview} disabled={!file}>Preview Path</button>
-      <button on:click={download} disabled={!file}>Build Scribble</button>
+        <label class="checkbox">
+          Invert Image
+          <input type="checkbox" bind:checked={params.invert} on:change={updateParams}>
+        </label>
+      </div>
     </div>
   </div>
 
-  <div class="widget">
-    <div class="preview">
-      <h3>Path Preview</h3>
-      <div class="preview-container" contenteditable="true" bind:innerHTML={previewImage}></div>
-      {#if previewImage}
-        <div>Curves: {countPathSegments(previewImage)}</div>
-        <div class="hint">If you do not see any output try to adjust the black level or upload a black and white
-          image.
+  <div class="column">
+    <div class="widget">
+      <div class="params">
+        <h3>Scribble</h3>
+
+        <label>
+          Scribble Name
+          <input type="text" bind:value={params.ma3_scribble_name} on:input={updateParams}>
+        </label>
+
+        <label>
+          Stroke Thickness
+          <input type="number" min="0" max="10" bind:value={params.ma3_scribble_stroke_thickness}
+                 on:input={updateParams}>
+          <input type="range" min="0" max="10" step="0.1" bind:value={params.ma3_scribble_stroke_thickness}
+                 on:input={updateParams}>
+        </label>
+
+        <label>
+          Stroke Color
+          <input type="color" bind:value={params.ma3_scribble_stroke_color} on:input={updateParams}>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button on:click={preview} disabled={!file}>Preview Path</button>
+        <button on:click={download} disabled={!file}>Build Scribble</button>
+      </div>
+    </div>
+
+    <div class="widget">
+      <div class="preview">
+        <h3>Path Preview</h3>
+        <div class="preview-container" contenteditable="true" bind:innerHTML={previewImage}></div>
+        {#if previewImage}
+          <div>Curves: {countPathSegments(previewImage)}</div>
+          <div class="hint">If you do not see any output try to adjust the black level or upload a black and white
+            image.
+          </div>
+        {/if}
+        <div>
+          Click <i>Build Scribble</i> to download.
+          Place the resulting <code>.xml</code> file in your scribbles folder, located in <i>C:\Program Data\&lt;MA
+          directory&gt;\gma3_library\scribbles</i>.
+          Then, in MA3, click <code>Menu</code>→<code>Show Creator</code>→<code>Import</code>→<code>Scribbles</code> and
+          import your scribble.
         </div>
-      {/if}
-      <div>
-        Click <i>Build Scribble</i> to download.
-        Place the resulting <code>.xml</code> file in your scribbles folder, located in <i>C:\Program Data\&lt;MA directory&gt;\gma3_library\scribbles</i>.
-        Then, in MA3, click <code>Menu</code>→<code>Show Creator</code>→<code>Import</code>→<code>Scribbles</code> and import your scribble.
-      </div>
-      <div></div>
-      <div></div>
-      <div class="hint">
-        This app was primarily stitched together within a day for my personal use to get some annoying tasks done.
-        Its code quality is light years behind what I would normally build.
-        However, I thought it might be useful for others as well.
-      </div>
-      <div class="hint">
-        If stuff doesn't work as expected or you have any feedback, please let me know.
-        Keep in mind that my goal was not to create a 1:1 representation, but to convert simple images to a format that can be used in MA3 without automatized cursor movement.
-      </div>
-      <div class="hint">
-        Because the program is licensed free of charge, there is no warranty for the program, to the extent permitted by applicable law.
-        See license details <a href="https://github.com/lefinal/image-to-ma3-scribble" on:focus={trackFocusLicense}>here</a>.
+        <div></div>
+        <div></div>
+        <div class="hint">
+          This app was primarily stitched together within a day for my personal use to get some annoying tasks done.
+          Its code quality is light years behind what I would normally build.
+          However, I thought it might be useful for others as well.
+        </div>
+        <div class="hint">
+          If stuff doesn't work as expected or you have any feedback, please let me know.
+          Keep in mind that my goal was not to create a 1:1 representation, but to convert simple images to a format
+          that
+          can be used in MA3 without automatized cursor movement.
+        </div>
+        <div class="hint">
+          Because the program is licensed free of charge, there is no warranty for the program, to the extent permitted
+          by
+          applicable law.
+          See license details <a href="https://github.com/lefinal/image-to-ma3-scribble"
+                                 on:focus={trackFocusLicense}>here</a>.
+        </div>
       </div>
     </div>
   </div>
