@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.0...v1.0.1) (2025-02-12)
+
+
+### Bug Fixes
+
+* add README ([113d1e3](https://github.com/lefinal/image-to-ma3-scribble/commit/113d1e3289cd42061bd8ea107c8d199429be1709))
+
 # 1.0.0 (2025-02-12)
 
 
