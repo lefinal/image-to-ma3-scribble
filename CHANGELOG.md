@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.1...v1.0.2) (2025-02-12)
+
+
+### Bug Fixes
+
+* **service:** add missing health check endpoint ([f51b55a](https://github.com/lefinal/image-to-ma3-scribble/commit/f51b55a37b4081a0e88c70c5b6615662bfc29c84))
+
 ## [1.0.1](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.0...v1.0.1) (2025-02-12)
 
 
