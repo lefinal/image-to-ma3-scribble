@@ -12,4 +12,7 @@ export default defineConfig({
   define: {
     PKG: pkg,
   },
+  server: {
+    allowedHosts: ["localhost", "localho.st"]
+  }
 })

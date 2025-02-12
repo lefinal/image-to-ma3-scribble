@@ -1,4 +1,5 @@
 <script lang="ts">
+  const dev = true;
 
   interface Params {
     trace_turn_policy: string;
@@ -49,6 +50,7 @@
     }
 
     timeout = setTimeout(() => {
+      track('update_params', { params: params });
       preview();
     }, 200); // Delay for 200 milliseconds after the last change
   }
@@ -57,9 +59,11 @@
   function handleFileUpload(event) {
     file = event.target.files[0];
     if (file && file.type !== 'image/png') {
+      track('invalid_file_type', { file_type: file.type });
       alert('Only PNG files are allowed.');
       file = null;
     }
+    track('file_upload', { file_type: file ? file.type : null });
     updateParams();  // Trigger preview on file upload
   }
 
@@ -77,6 +81,8 @@
     if (!file) {
       return;
     }
+
+    track('preview', { params: params });
 
     updateQueryParamsInUrl(params);
 
@@ -129,6 +135,8 @@
       return;
     }
 
+    track('download', { params: params });
+
     updateQueryParamsInUrl(params);
 
     const arrayBuffer = await file.arrayBuffer();
@@ -163,6 +171,19 @@
     } catch (error) {
       console.error('Error:', error);
       alert('Request failed. Check console for details.');
+    }
+  }
+
+  /**
+   * Track an event.
+   * @param eventName
+   * @param eventDetails
+   */
+  export function track(eventName: string, eventDetails?: object): void {
+    const umami = window.umami;
+    if (umami) {
+      // @ts-expect-error Global variable that is created via root +layout.svelte.
+      umami.track(eventName, eventDetails);
     }
   }
 
@@ -225,7 +246,32 @@
 
     return Math.floor(segmentCount);
   }
+
+  function trackFocusVersion() {
+    track('focus_version')
+  }
+
+  function trackFocusAuthor() {
+    track('focus_author')
+  }
+
+  function trackFocusLicense() {
+    track('focus_license')
+  }
 </script>
+
+<svelte:head>
+  {#if dev}
+    <script async src="http://localhost:3000/script" data-website-id="1c7ac515-e228-4e8f-b671-16c2ce2e51e9"></script>
+    <script async src="https://analytics.la-solutions.one/umami" data-website-id="c4ba42e4-9a92-4498-b846-a689ad63fb17"
+            data-domains="localho.st"></script>
+  {/if}
+  {#if !dev}
+    <script async data-website-id="167fcd8d-55b2-4c7d-ab56-0fe66d1b4036"
+            data-domains="la-solutions.one,www.la-solutions.one"
+            src="https://analytics.la-solutions.one/umami"></script>
+  {/if}
+</svelte:head>
 
 <style>
 
@@ -271,7 +317,7 @@
         gap: 1em;
     }
 
-    .preview .hint {
+    .hint {
         color: #666;
     }
 
@@ -405,6 +451,7 @@
     a, a:focus, a:active {
         color: inherit;
     }
+
     a:hover {
         color: #4a94dd;
     }
@@ -413,8 +460,8 @@
 <main>
   <div class="widget">
 
-    <h1>PNG to Scribble <a class="version" href="https://github.com/lefinal/image-to-ma3-scribble">v{PKG.version}</a></h1>
-    <div class="author">by <a href="https://la-solutions.one">Lennart Altenhof</a></div>
+    <h1>PNG to MA3 Scribble <span class="version">v{PKG.version}</span></h1>
+    <div class="author">by <a href="https://la-solutions.one" on:focus={trackFocusAuthor}>Lennart Altenhof</a></div>
 
     <div class="params">
       <h3>Image upload</h3>
@@ -422,6 +469,10 @@
         Upload Image (.png)
         <input type="file" accept="image/png" on:change={handleFileUpload}>
       </label>
+      <div class="hint">
+        Images will get converted to a black-white bitmap before tracing.
+        Use an already black-white image to get the best results.
+      </div>
 
       <h3>Tracing</h3>
       <label>
@@ -516,7 +567,7 @@
 
     <div class="actions">
       <button on:click={preview} disabled={!file}>Preview Path</button>
-      <button on:click={preview} disabled={!file}>Build Scribble</button>
+      <button on:click={download} disabled={!file}>Build Scribble</button>
     </div>
   </div>
 
@@ -530,6 +581,26 @@
           image.
         </div>
       {/if}
+      <div>
+        Click <i>Build Scribble</i> to download.
+        Place the resulting <code>.xml</code> file in your scribbles folder, located in <i>C:\Program Data\&lt;MA directory&gt;\gma3_library\scribbles</i>.
+        Then, in MA3, click <code>Menu</code>→<code>Show Creator</code>→<code>Import</code>→<code>Scribbles</code> and import your scribble.
+      </div>
+      <div></div>
+      <div></div>
+      <div class="hint">
+        This app was primarily stitched together within a day for my personal use to get some annoying tasks done.
+        Its code quality is light years behind what I would normally build.
+        However, I thought it might be useful for others as well.
+      </div>
+      <div class="hint">
+        If stuff doesn't work as expected or you have any feedback, please let me know.
+        Keep in mind that my goal was not to create a 1:1 representation, but to convert simple images to a format that can be used in MA3 without automatized cursor movement.
+      </div>
+      <div class="hint">
+        Because the program is licensed free of charge, there is no warranty for the program, to the extent permitted by applicable law.
+        See license details <a href="https://github.com/lefinal/image-to-ma3-scribble" on:focus={trackFocusLicense}>here</a>.
+      </div>
     </div>
   </div>
 
