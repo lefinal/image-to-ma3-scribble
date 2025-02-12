@@ -1,0 +1,71 @@
+name: "Release"
+
+on:
+  workflow_dispatch:
+
+jobs:
+  site_build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        working-directory: webapp
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Install dependencies
+        working-directory: webapp
+        run: npm ci
+
+      - name: Build
+        working-directory: webapp
+        run: npm run build
+
+      - name: Copy package.json
+        working-directory: webapp
+        run: |
+          cp package.json build/package.json
+
+      - name: Archive build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: site-build
+          path: webapp/build
+
+  release:
+    name: release
+    runs-on: ubuntu-latest
+    needs:
+      - site_build
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Download webapp build
+        uses: actions/download-artifact@v3
+        with:
+          name: site-build
+          path: webapp/build
+
+      - name: Install dependencies for semantic-release
+        run: npm install @semantic-release/gitlab @semantic-release/changelog @semantic-release/git @semantic-release/npm @semantic-release/exec @codedependant/semantic-release-docker
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DOCKER_REGISTRY_USER: ${{ secrets.DOCKER_REGISTRY_USER }}
+          DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+        run: npx semantic-release

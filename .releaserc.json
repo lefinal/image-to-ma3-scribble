@@ -1,0 +1,68 @@
+{
+  "branches": [
+    "main"
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md"
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": false
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "echo $DOCKER_REGISTRY_PASSWORD | docker login --username $DOCKER_REGISTRY_USER --password-stdin "
+      }
+    ],
+    [
+      "@codedependant/semantic-release-docker",
+      {
+        "dockerTags": [
+          "latest",
+          "{{version}}"
+        ],
+        "dockerImage": "las-image-to-ma3-scribble-service",
+        "dockerFile": "./service/Dockerfile",
+        "dockerContext": "./service",
+        "dockerProject": "lefinal",
+        "dockerLogin": false,
+        "dockerPublish": true,
+        "dockerAutoClean": false
+      }
+    ],
+    [
+      "@codedependant/semantic-release-docker",
+      {
+        "dockerTags": [
+          "latest",
+          "{{version}}"
+        ],
+        "dockerImage": "las-image-to-ma3-scribble-webapp",
+        "dockerFile": "./webapp/Dockerfile",
+        "dockerContext": "./webapp",
+        "dockerProject": "lefinal",
+        "dockerLogin": false,
+        "dockerPublish": true,
+        "dockerAutoClean": false
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": [
+          "CHANGELOG.md"
+        ]
+      }
+    ],
+    "@semantic-release/github"
+  ]
+}
