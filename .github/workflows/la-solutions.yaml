@@ -8,25 +8,24 @@ on:
 jobs:
   site_build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 'webapp'
     steps:
       - uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
-        working-directory: webapp
         with:
           node-version: 20
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
       - name: Install dependencies
-        working-directory: webapp
         run: npm ci
 
       - name: Build
-        working-directory: webapp
         run: npm run build
 
       - name: Copy package.json
-        working-directory: webapp
         run: |
           cp package.json build/package.json
