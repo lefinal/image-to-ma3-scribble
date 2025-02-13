@@ -46,12 +46,8 @@ func (app *App) Run(ctx context.Context) error {
 		c.Header("Allow-Headers", "*")
 		c.Next()
 	})
-	r.Use(func(c *gin.Context) {
-		if c.Request.Method == http.MethodOptions {
-			c.Status(http.StatusOK)
-			return
-		}
-		c.Next()
+	r.OPTIONS("/*", func(c *gin.Context) {
+		c.Status(http.StatusOK)
 	})
 	r.Use(web.RequestDebugLogger(apiLogger))
 	builder := web.HandlerBuilder{Logger: apiLogger}
