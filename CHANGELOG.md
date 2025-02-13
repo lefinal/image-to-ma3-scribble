@@ -1,3 +1,10 @@
+## [1.0.12](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.11...v1.0.12) (2025-02-13)
+
+
+### Bug Fixes
+
+* **webapp:** fix spacing ([b11f305](https://github.com/lefinal/image-to-ma3-scribble/commit/b11f305e0666d55ebbdda655447dfc131318eebf))
+
 ## [1.0.11](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.10...v1.0.11) (2025-02-13)
 
 
