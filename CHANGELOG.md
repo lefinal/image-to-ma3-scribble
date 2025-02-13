@@ -1,3 +1,10 @@
+## [1.0.9](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.8...v1.0.9) (2025-02-13)
+
+
+### Bug Fixes
+
+* **service:** fix preflight ([983259b](https://github.com/lefinal/image-to-ma3-scribble/commit/983259b92626e7d9fcfe6d00e98b9ebbf6ea6c4e))
+
 ## [1.0.8](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.7...v1.0.8) (2025-02-13)
 
 
