@@ -1,3 +1,10 @@
+## [1.0.10](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.9...v1.0.10) (2025-02-13)
+
+
+### Bug Fixes
+
+* **webapp:** fix call to wrong endpoint ([f9e82b4](https://github.com/lefinal/image-to-ma3-scribble/commit/f9e82b41ca065a28ece8d5cb2c0a4530ae89d050))
+
 ## [1.0.9](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.8...v1.0.9) (2025-02-13)
 
 
