@@ -42,8 +42,8 @@ func (app *App) Run(ctx context.Context) error {
 	apiLogger := app.logger.Named("http")
 	r.Use(func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", "*")
-		c.Header("Allow-Methods", "*")
-		c.Header("Allow-Headers", "*")
+		c.Header("Access-Control-Allow-Methods", "*")
+		c.Header("Access-Control-Allow-Headers", "*")
 		c.Next()
 	})
 	r.Use(func(c *gin.Context) {
