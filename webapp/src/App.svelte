@@ -601,7 +601,6 @@
           import your scribble.
         </div>
         <div></div>
-        <div></div>
         <div class="hint">
           This app was primarily stitched together within a day for my personal use to get some annoying tasks done.
           Its code quality is light years behind what I would normally build.
