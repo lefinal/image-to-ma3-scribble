@@ -89,7 +89,7 @@
     const urlQueryParams = prepareParamsForQuery();
 
     try {
-      const response = await fetch(`https://la-solutions.one/apps/png-to-ma3-scribble/api/v1/png-to-ma3-scribble/preview?${ urlQueryParams.toString() }`, {
+      const response = await fetch(`https://la-solutions.one/apps/image-to-ma3-scribble/api/v1/png-to-ma3-scribble/preview?${ urlQueryParams.toString() }`, {
         method: 'POST',
         headers: {
           'Content-Type': 'image/png',  // Indicate that you're sending a PNG file
@@ -142,7 +142,7 @@
     const urlQueryParams = prepareParamsForQuery();
 
     try {
-      const response = await fetch(`https://la-solutions.one/apps/png-to-ma3-scribble/api/v1/png-to-ma3-scribble?${ urlQueryParams.toString() }`, {
+      const response = await fetch(`https://la-solutions.one/apps/image-to-ma3-scribble/api/v1/png-to-ma3-scribble?${ urlQueryParams.toString() }`, {
         method: 'POST',
         headers: {
           'Content-Type': 'image/png',  // Indicate that you're sending a PNG file
