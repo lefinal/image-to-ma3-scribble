@@ -1,3 +1,10 @@
+## [1.0.11](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.10...v1.0.11) (2025-02-13)
+
+
+### Bug Fixes
+
+* **webapp:** fix missing cors headers ([359d349](https://github.com/lefinal/image-to-ma3-scribble/commit/359d3494eaebd53fc66bdaef06b2fa724a6bfdfb))
+
 ## [1.0.10](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.9...v1.0.10) (2025-02-13)
 
 
