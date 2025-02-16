@@ -41,6 +41,12 @@ func (app *App) Run(ctx context.Context) error {
 
 	apiLogger := app.logger.Named("http")
 	r.Use(func(c *gin.Context) {
+		// Max body size.
+		const maxBodySize = 50 << 20 // 50MB
+		c.Request.Body = http.MaxBytesReader(c.Writer, c.Request.Body, maxBodySize)
+		c.Next()
+	})
+	r.Use(func(c *gin.Context) {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "*")
 		c.Header("Access-Control-Allow-Headers", "*")
