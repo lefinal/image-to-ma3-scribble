@@ -57,8 +57,8 @@ func (app *App) Run(ctx context.Context) error {
 	builder := web.HandlerBuilder{Logger: apiLogger}
 	r.GET("/healthz", func(c *gin.Context) { c.Status(http.StatusOK) })
 	r.GET("/readyz", func(c *gin.Context) { c.Status(http.StatusOK) })
-	r.POST("/api/v1/png-to-ma3-scribble/preview", builder.GinHandler(app.handlePNGToMA3ScribblePreview()))
-	r.POST("/api/v1/png-to-ma3-scribble", builder.GinHandler(app.handlePNGToMA3Scribble()))
+	r.POST("/api/v1/png-to-ma3-scribble/preview", builder.GinHandler(app.handlePNGToMA3Scribble(true)))
+	r.POST("/api/v1/png-to-ma3-scribble", builder.GinHandler(app.handlePNGToMA3Scribble(false)))
 
 	httpServer := http.Server{
 		Addr:           app.config.HTTPAPIListenAddr,
