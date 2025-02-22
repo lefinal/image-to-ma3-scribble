@@ -15,6 +15,8 @@
 
   let queryParams = new URLSearchParams(window.location.search);
 
+  const maxCurvesInMA3Scribble = 129;
+
   let params: Params = {
     preprocess_transparency_replacement_color: queryParams.get('preprocess_transparency_replacement_color') || '#ffffff',
     preprocess_blur_radius: Number(queryParams.get('preprocess_blur_radius')) || 0.0,
@@ -29,7 +31,10 @@
     ma3_scribble_stroke_color: queryParams.get('ma3_scribble_stroke_color') || '#ffffff',
   };
 
-  function updateQueryParamsInUrl(params) {
+  const serviceBaseUrl = "https://la-solutions.one/apps/image-to-ma3-scribble"
+  // const serviceBaseUrl = 'http://localhost:8001';
+
+  function updateQueryParamsInUrl(params: Params) {
     const url = new URL(window.location.href);
 
     // Set new query params
@@ -626,7 +631,15 @@
         <h3>Path Preview</h3>
         <div class="preview-container" contenteditable="true" bind:innerHTML={previewImage}></div>
         {#if previewImage}
-          <div>Curves: {countPathSegments(previewImage)}</div>
+          <div>
+            Curves: {countPathSegments(previewImage)}/{maxCurvesInMA3Scribble}
+            <span class="help">?
+              <span class="help-tooltip">
+                The maximum number of curves in MA3 scribbles is {maxCurvesInMA3Scribble}.
+                If you have too many curves, try increasing curve optimization tolerance, blur or just use a simpler image.
+              </span>
+            </span>
+          </div>
           <div class="hint">If you do not see any output try to adjust the black level or upload a black and white
             image.
           </div>
