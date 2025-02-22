@@ -1,5 +1,7 @@
 <script lang="ts">
   interface Params {
+    preprocess_transparency_replacement_color: string;
+    preprocess_blur_radius: number;
     trace_turn_policy: string;
     trace_turd_size: number;
     trace_alpha_max: number;
@@ -14,6 +16,8 @@
   let queryParams = new URLSearchParams(window.location.search);
 
   let params: Params = {
+    preprocess_transparency_replacement_color: queryParams.get('preprocess_transparency_replacement_color') || '#ffffff',
+    preprocess_blur_radius: Number(queryParams.get('preprocess_blur_radius')) || 0.0,
     trace_turn_policy: queryParams.get('trace_turn_policy') || 'minority',
     trace_turd_size: Number(queryParams.get('trace_turd_size')) || 10000,
     trace_alpha_max: Number(queryParams.get('trace_alpha_max')) || 1,
@@ -67,6 +71,10 @@
 
   function prepareParamsForQuery(): URLSearchParams {
     const clonedParams = { ...params };
+    // Convert the transparency replacement color to an 8-character hex value
+    if (clonedParams.preprocess_transparency_replacement_color.length < 8) {
+      clonedParams.preprocess_transparency_replacement_color += 'ff';
+    }
     // Convert the stroke color to an 8-character hex value
     if (clonedParams.ma3_scribble_stroke_color.length < 8) {
       clonedParams.ma3_scribble_stroke_color += 'ff';
@@ -89,7 +97,7 @@
     const urlQueryParams = prepareParamsForQuery();
 
     try {
-      const response = await fetch(`https://la-solutions.one/apps/image-to-ma3-scribble/api/v1/png-to-ma3-scribble/preview?${ urlQueryParams.toString() }`, {
+      const response = await fetch(`${ serviceBaseUrl }/api/v1/png-to-ma3-scribble/preview?${ urlQueryParams.toString() }`, {
         method: 'POST',
         headers: {
           'Content-Type': 'image/png',  // Indicate that you're sending a PNG file
@@ -142,7 +150,7 @@
     const urlQueryParams = prepareParamsForQuery();
 
     try {
-      const response = await fetch(`https://la-solutions.one/apps/image-to-ma3-scribble/api/v1/png-to-ma3-scribble?${ urlQueryParams.toString() }`, {
+      const response = await fetch(`${ serviceBaseUrl }/api/v1/png-to-ma3-scribble?${ urlQueryParams.toString() }`, {
         method: 'POST',
         headers: {
           'Content-Type': 'image/png',  // Indicate that you're sending a PNG file
@@ -471,22 +479,52 @@
       <div class="params">
         <h3>Image upload</h3>
         <label>
-          Upload Image (.png)
+          Upload Image or drop below (.png)
           <input type="file" accept="image/png" on:change={handleFileUpload}>
         </label>
         <div class="hint">
           Images will get converted to a black-white bitmap before tracing.
           Use an already black-white image to get the best results.
         </div>
+      </div>
 
+      <div class="params">
+        <h3>Preprocessing</h3>
+        <label>
+          <span>
+            Transparency Replacement Color
+            <span class="help">?
+              <span class="help-tooltip">Transparency in the PNG will be replaced with this color as tracing only works without transparency.</span>
+            </span>
+          </span>
+          <input type="color" bind:value={params.preprocess_transparency_replacement_color} on:input={updateParams}>
+        </label>
+
+        <label>
+      <span>
+        Blur Radius
+        <span class="help">?
+          <span class="help-tooltip">Radius for blurring the image. Useful for reducing the number of curves.</span>
+        </span>
+      </span>
+          <input type="number" min="0" max="4000" bind:value={params.preprocess_blur_radius}
+                 on:input={updateParams}>
+          <input type="range" min="0" max="20" step=".01" bind:value={params.preprocess_blur_radius}
+                 on:input={updateParams}>
+        </label>
+      </div>
+    </div>
+
+    <div class="widget">
+      <div class="params">
         <h3>Tracing</h3>
         <label>
-        <span>
-          Turn Policy
-          <span class="help">?
-            <span class="help-tooltip">Defines how corners are handled in tracing.</span>
-          </span>
+      <span>
+        Turn Policy
+        <span class="help">?
+          <span class="help-tooltip">Defines how corners are handled in tracing.</span>
         </span>
+      </span>
           <select bind:value={params.trace_turn_policy} on:change={updateParams}>
             <option value="black">Black</option>
             <option value="white">White</option>
@@ -499,35 +537,35 @@
         </label>
 
         <label>
-        <span>
-          Speckle Suppression
-          <span class="help">?
-            <span class="help-tooltip">Suppress small speckles of up to this size.</span>
-          </span>
+      <span>
+        Speckle Suppression
+        <span class="help">?
+          <span class="help-tooltip">Suppress small speckles of up to this size.</span>
         </span>
+      </span>
           <input type="number" max="100000000" bind:value={params.trace_turd_size} on:input={updateParams}>
           <input type="range" min="1000" max="20000" step="100" bind:value={params.trace_turd_size}
                  on:input={updateParams}>
         </label>
 
         <label>
-        <span>
-          Corner To Curve Optimization
-          <span class="help">?
-            <span class="help-tooltip">Threshold for detecting corners. If smaller, more sharp corners will be produced instead of curves.</span>
-          </span>
+      <span>
+        Corner To Curve Optimization
+        <span class="help">?
+          <span class="help-tooltip">Threshold for detecting corners. If smaller, more sharp corners will be produced instead of curves.</span>
         </span>
+      </span>
           <input type="number" step="0.1" min="0" max="1.4" bind:value={params.trace_alpha_max} on:input={updateParams}>
           <input type="range" min="0" max="1.4" step="0.01" bind:value={params.trace_alpha_max} on:input={updateParams}>
         </label>
 
         <label>
-        <span>
-          Curve Optimization Tolerance
-          <span class="help">?
-            <span class="help-tooltip">Optimization tolerance for curve optimization. The larger the value the more curves will be joined together.</span>
-          </span>
+      <span>
+        Curve Optimization Tolerance
+        <span class="help">?
+          <span class="help-tooltip">Optimization tolerance for curve optimization. The larger the value the more curves will be joined together.</span>
         </span>
+      </span>
           <input type="number" min="0" max="100000000" bind:value={params.trace_curve_optimization_tolerance}
                  on:input={updateParams}>
           <input type="range" min="0" max="20" step=".01" bind:value={params.trace_curve_optimization_tolerance}
@@ -535,12 +573,12 @@
         </label>
 
         <label>
-        <span>
-          Black Level Threshold
-          <span class="help">?
-            <span class="help-tooltip">Threshold for converting the input image to a black-white bitmap.</span>
-          </span>
+      <span>
+        Black Level Threshold
+        <span class="help">?
+          <span class="help-tooltip">Threshold for converting the input image to a black-white bitmap.</span>
         </span>
+      </span>
           <input type="number" min="0" max="1" step="0.01" bind:value={params.black_level} on:input={updateParams}>
           <input type="range" min="0" max="1" step="0.01" bind:value={params.black_level} on:input={updateParams}>
         </label>
