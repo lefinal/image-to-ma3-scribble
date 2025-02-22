@@ -48,6 +48,7 @@ func (app *App) handlePNGToMA3Scribble(previewOnly bool) web.HandlerFunc {
 			svgStrokeColor := rgbaToHex(ma3ScribbleConfig.StrokeColor)
 			replacement := fmt.Sprintf(`fill="transparent" stroke="%s" stroke-width="50"`, svgStrokeColor)
 			tracedSVGStr = strings.ReplaceAll(tracedSVGStr, `fill="#000000" stroke="none"`, replacement)
+			tracedSVGStr = strings.ReplaceAll(tracedSVGStr, `fill="#ffffff" stroke="none"`, replacement)
 
 			// We just keep it lol.
 			_ = os.WriteFile("TMPx.svg", tracedSVG.Bytes(), 0644)
