@@ -1,3 +1,18 @@
+# [1.1.0](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.12...v1.1.0) (2025-02-22)
+
+
+### Bug Fixes
+
+* **preview:** fix some svg fills in preview ([0ff30c8](https://github.com/lefinal/image-to-ma3-scribble/commit/0ff30c82aa7f47db05f64a01cee372545b8e4601))
+
+
+### Features
+
+* add preprocessing ([eb17d6f](https://github.com/lefinal/image-to-ma3-scribble/commit/eb17d6ff1176632a12353e09748803ec1bf40e5b))
+* **service:** add max body size ([fa6a450](https://github.com/lefinal/image-to-ma3-scribble/commit/fa6a450541e28e5a981ccb3398a0a420cb44e1c5))
+* **service:** add preprocessing ([5c7bb6b](https://github.com/lefinal/image-to-ma3-scribble/commit/5c7bb6b5ecbafbbddd317d4a22702d6d2708a078))
+* **webapp:** show max curves ([30dbe43](https://github.com/lefinal/image-to-ma3-scribble/commit/30dbe4316ad9c2ea1d8cb6ff51b438af7d6298d3))
+
 ## [1.0.12](https://github.com/lefinal/image-to-ma3-scribble/compare/v1.0.11...v1.0.12) (2025-02-13)
 
 
